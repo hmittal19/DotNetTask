@@ -1,0 +1,287 @@
+<script src="pub_js/home.js"></script>
+<div class="container">
+    <form action="/action_page.php">
+        <label><b>Program Title</b><span class="text_danger" style="color:red;">*</span></label>
+        <input type="text" ng-model="ProgrameTitle"/>
+
+        <label><b>Program Description</b><span class="text_danger" style="color:red;">*</span></label>
+
+        <div id="editor" ng-model="ProgrameDescription"></div>
+
+
+    </form>
+</div>
+
+<div class="container">
+    <h3>Personal Information</h3>
+    <table>
+        <tr>
+            <td>First Name</td>
+            <td colspan="2" class="text-center">Mandatory field</td>
+        </tr>
+        <tr>
+            <td>Last Name</td>
+            <td colspan="2" class="text-center">Mandatory field</td>
+        </tr>
+        <tr>
+            <td>Emai</td>
+            <td colspan="2" class="text-center">Mandatory field</td>
+        </tr>
+        <tr>
+            <td>Phone (without dial code)</td>
+            <td><input type="checkbox" />Internal</td>
+            <td>
+                <input type="checkbox" /> Hide
+            </td>
+        </tr>
+        <tr>
+            <td>Nationality</td>
+            <td><input type="checkbox" />Internal</td>
+            <td><input type="checkbox" />Hide</td>
+        </tr>
+        <tr>
+            <td>Current Residence</td>
+            <td><input type="checkbox" />Internal</td>
+            <td><input type="checkbox" />Hide</td>
+        </tr>
+        <tr>
+            <td>ID Number</td>
+            <td><input type="checkbox" />Internal</td>
+            <td><input type="checkbox" />Hide</td>
+        </tr>
+        <tr>
+            <td>Date of Birth</td>
+            <td><input type="checkbox" />Internal</td>
+            <td><input type="checkbox" />Hide</td>
+        </tr>
+        <tr>
+            <td>Gender</td>
+            <td><input type="checkbox" />Internal</td>
+            <td><input type="checkbox" />Hide</td>
+        </tr>
+    </table>
+
+    <button type="button" class="btn btn-sm btn-success" id="mode_show" style="margin-top:26px;" data-bs-toggle="modal" data-bs-target="#myModal">+ Add a question</button>
+    <button type="button" class="btn btn-sm btn-success d-none" id="mode_update_show" style="margin-top:26px;" data-bs-toggle="modal" data-bs-target="#myModalUpdate">+ Add a question</button>
+
+
+
+</div>
+<!-- Modal -->
+<div class="container">
+    <h3>Add Custom Questions</h3>
+    <table>
+        <tr ng-repeat="li in model">
+            <td>
+                {{li.type}}<br />
+                <b>{{li.question}}</b>
+            </td>
+            <td colspan="2" class="text-center"><button type="button" class="btn btn-sm btn-info" ng-click="update(li.id,li.type)">Edit</button></td>
+        </tr>
+        <!--<tr>
+            <td>
+                Dropdown<br />
+                <b>Please select the year of graduation from the list below</b>
+            </td>
+            <td colspan="2" class="text-center">Mandatory field</td>
+        </tr>
+        <tr>
+            <td>
+                Yes/No questions<br />
+                <b>Have you ever been rejected by the UK embassy?</b>
+            </td>
+            <td colspan="2" class="text-center">Mandatory field</td>
+        </tr>
+        <tr>
+            <td>
+                Multiple Choice<br />
+                <b>Please select at least 3 answers from the dropdowns below.</b>
+            </td>
+            <td><input type="checkbox" />Internal</td>
+        </tr>
+        <tr>
+            <td>
+                Numeric Question<br />
+                <b>How many years of experience do you have, please enter the number below</b>
+            </td>
+            <td><input type="checkbox" />Internal</td>
+        </tr>
+        <tr>
+            <td>
+                Date Question<br />
+                <b>Please provide the date that you have moved to the UK</b>
+            </td>
+            <td><i class="bi bi-pencil-square"></i></td>
+        </tr>-->
+
+    </table>
+
+    <button type="button" class="btn btn-sm btn-success" style="margin-top:26px;" data-bs-toggle="modal" data-bs-target="#myModal">+ Add a question</button>
+    <button type="button" class="btn btn-sm btn-warning" style="margin-top: 26px; float: right;" ng-click="submitApplication()">Create program and application</button>
+
+
+
+</div>
+<div class="modal fade" id="myModal" role="dialog" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form ng-submit="Question()">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Select Question Type</h4>
+                    <button type="button" class="btn-close d-none" data-bs-dismiss="modal"></button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <div class="form-group">
+                                <label class="form-label" for="parentMenu">Type</label>
+                                <select class="form-control" ng-model="obj.type" ng-change="getType()" required>
+                                    <option value="" selected>-- Select Status --</option>
+                                    <option value="Paragraph">Paragraph</option>
+                                    <option value="Yes/No">Yes/No</option>
+                                    <option value="Dropdown choice">Dropdown choice</option>
+                                    <option value="MCQ">Multiple Choice Question Template</option>
+                                    <option value="Date">Date</option>
+                                    <option value="Number">Number</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-3" id="question">
+                            <div class="form-group">
+                                <label class="form-label" for="menuName">Question</label>
+                                <input type="text" class="form-control" ng-model="obj.question" id="menuName" placeholder="Question" required />
+                                <input type="text" class="form-control d-none" ng-model="obj.id" id="questionId" placeholder="Question" />
+                            </div>
+                        </div>
+
+                        <div class="d-none" id="choise">
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label class="form-label" for="menuName">Choise</label>
+                                    <table id="myTable">
+                                        <tr>
+                                            <td></td>
+                                        </tr>
+
+                                    </table>
+                                    <button type="button" class="btn btn-warning" ng-click="addRow()">add Choise</button>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label class="form-label" for="menuName">Question</label>
+                                    <input type="checkbox" ng-model="obj.enableOther" /> Enable "Other" option
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-3 d-none" id="mcq">
+                            <div class="form-group">
+                                <label class="form-label" for="menuName">Max choice allowed</label>
+                                <input type="text" class="form-control" ng-model="obj.maxAllowed" id="menuName" placeholder="Question" />
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-3 d-none" id="delete">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-danger" ng-click="deleteQuestion(obj.id,obj.type)">Delete question</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Submit</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" ng-click="reset()">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModalUpdate" role="dialog" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form ng-submit="updateQuestion()">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Select Question Type</h4>
+                    <button type="button" class="btn-close d-none" data-bs-dismiss="modal"></button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <div class="form-group">
+                                <label class="form-label" for="parentMenu">Type</label>
+                                <select class="form-control" ng-model="obj.type" ng-change="getType()" required>
+                                    <option value="" selected>-- Select Status --</option>
+                                    <option value="Paragraph">Paragraph</option>
+                                    <option value="Yes/No">Yes/No</option>
+                                    <option value="Dropdown choice">Dropdown choice</option>
+                                    <option value="MCQ">Multiple Choice Question Template</option>
+                                    <option value="Date">Date</option>
+                                    <option value="Number">Number</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-3" id="question">
+                            <div class="form-group">
+                                <label class="form-label" for="menuName">Question</label>
+                                <input type="text" class="form-control" ng-model="obj.question" id="menuName" placeholder="Question" required />
+                            </div>
+                        </div>
+
+                        <div class="d-none" id="choise">
+
+
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label class="form-label" for="menuName">Choise</label>
+                                    <table id="myTable">
+                                        <tr>
+                                            <td><input type="text" class="form-control" id="choises" />  <button type="button" class="btn btn-warning" ng-click="addRow()">add Choise</button></td>
+                                        </tr>
+
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
+                                    <label class="form-label" for="menuName">Question</label>
+                                    <input type="checkbox" ng-model="obj.enableOther" /> Enable "Other" option
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-3 d-none" id="mcq">
+                            <div class="form-group">
+                                <label class="form-label" for="menuName">Max choice allowed</label>
+                                <input type="text" class="form-control" ng-model="obj.maxAllowed" id="menuName" placeholder="Question" />
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-3 d-none" id="delete">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-danger" ng-click="reset()">Delete question</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Submit</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" ng-click="reset()">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    ClassicEditor
+        .create(document.querySelector('#editor'))
+        .catch(error => {
+            console.error(error);
+        });
+</script>
+<script>
+    window.location.pathname = "/View/index.html";
+</script>

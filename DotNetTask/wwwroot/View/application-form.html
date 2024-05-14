@@ -1,0 +1,116 @@
+<script src="pub_js/home.js"></script>
+
+<form>
+    <div class="row">
+        <div class="col-8">
+
+            <div class="container row">
+                <h3>Personal Information</h3>
+                <div class="col-12">
+                    <label><b>First Name</b><span class="text_danger" style="color:red;">*</span></label>
+                    <input type="text" ng-model="obj.FirstName" />
+                </div>
+
+                <div class="col-12">
+                    <label><b>Last Name</b><span class="text_danger" style="color:red;">*</span></label>
+                    <input type="text" ng-model="obj.LastName" />
+                </div>
+                <div class="col-12">
+                    <label><b>Emai</b><span class="text_danger" style="color:red;">*</span></label>
+                    <input type="text" ng-model="obj.Emai" />
+                </div>
+                <div class="col-12">
+                    <label><b>Phone (without dial code)</b><span class="text_danger" style="color:red;">*</span></label>
+                    <input type="text" ng-model="obj.Phone" />
+                </div>
+                <div class="col-12">
+                    <label><b>Nationality</b><span class="text_danger" style="color:red;">*</span></label>
+                    <input type="text" ng-model="obj.Nationality" />
+                </div>
+                <div class="col-12">
+                    <label><b>Current Residence</b><span class="text_danger" style="color:red;">*</span></label>
+                    <input type="text" ng-model="obj.CurrentResidence" />
+                </div>
+                <div class="col-12">
+                    <label><b>ID Number</b><span class="text_danger" style="color:red;">*</span></label>
+                    <input type="text" ng-model="obj.IDNumber" />
+                </div>
+                <div class="col-12">
+                    <label><b>Date of Birth</b><span class="text_danger" style="color:red;">*</span></label>
+                    <input type="date" class="col-12" ng-model="obj.DOB" />
+                </div>
+                <div class="col-12">
+                    <label><b>Gender</b><span class="text_danger" style="color:red;">*</span></label>
+                    <select class="form-control" ng-model="obj.Gender">
+                        <option value="" selected>-- Select Gender --</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+
+
+            </div>
+            <div class="container">
+                <h3>Additional questions</h3>
+                <div ng-repeat="products in model" class="row">
+                    <div class="col-12">
+                        <label><b>{{products.question}}</b><span class="text_danger" style="color:red;">*</span></label>
+                        <input type="date" ng-if="products.type == 'Date'" class="col-12" ng-model="Date" id="{{products.id}}" />
+                        <input type="number" ng-if="products.type == 'Number'" class="col-12" ng-model="Number" id="{{products.id}}" />
+                        <div class="col-12" ng-if="products.type == 'Yes/No'">
+                            <input type="radio" id="{{products.id}}-yes" name="{{products.id}}" ng-model="products.answer" value="Yes">
+                            <label for="{{products.id}}-yes">Yes</label>
+                            <input type="radio" id="{{products.id}}-no" name="{{products.id}}" ng-model="products.answer" value="No">
+                            <label for="{{products.id}}-no">No</label>
+                        </div>
+
+                        <select ng-if="products.type == 'Dropdown choice'" class="multiple-select" id="{{products.id}}" ng-model="Dropdownchoice">
+                            <option value="">Select</option>
+                            <option ng-repeat="m in products.choises" value="{{m}}">{{m}}</option>
+                        </select>
+                        <select ng-if="products.type == 'MCQ'" id="{{products.id}}" multiple ng-model="MCQ">
+                            <option value="">Select</option>
+                            <option ng-repeat="m in products.choises" value="{{m}}">{{m}}</option>
+
+                        </select>
+                        <textarea ng-if="products.type == 'Paragraph'" id="{{products.id}}" ng-model="Paragraph"></textarea>
+                    </div>
+                </div>
+                <!--<div ng-repeat="products in model" class="row">
+                    <div class="col-12">
+                        <label><b>{{products.question}}</b><span class="text_danger" style="color:red;">*</span></label>
+                        <input type="date" ng-if="products.type == 'Date'" class="col-12" ng-model="Date" id="{{products.id}}" />
+                        <input type="number" ng-if="products.type == 'Number'" class="col-12" ng-model="Number" id="{{products.id}}" />
+                        <div class="col-12">
+                            <input type="radio" ng-if="products.type == 'Yes/No'" id="{{products.id}}" name="age" value="Yes">
+                            <label for="age1" ng-if="products.type == 'Yes/No'">Yes</label>
+                            <input type="radio" ng-if="products.type == 'Yes/No'" id="{{products.id}}" name="age" value="No">
+                            <label for="age2" ng-if="products.type == 'Yes/No'">No</label>
+                        </div>
+                        <select ng-if="products.type == 'Dropdown choice'" class="multiple-select" id="{{products.id}}" ng-model="Dropdownchoice">
+                            <option value="">Select</option>
+                            <option ng-repeat="m in products.choises" value="{{m}}">{{m}}</option>
+                        </select>
+                        <select ng-if="products.type == 'MCQ'" id="{{products.id}}" multiple ng-model="MCQ">
+                            <option value="">Select</option>
+                            <option ng-repeat="m in products.choises" value="{{m}}">{{m}}</option>
+
+                        </select>
+                        <textarea type="text" ng-if="products.type == 'Paragraph'" id="{{products.id}}" ng-model="Paragraph" />
+
+                    </div>
+                </div>-->
+
+            </div>
+            <button type="submit" class="btn btn-sm btn-success" style="margin-bottom:26px;float:right;" ng-click="submitApplicationForm()">Submit Application</button>
+        </div>
+        <div class="col-4" style="margin-top: 35px;">
+            <b>{{modelform.programeTitle}}</b>
+        </div>
+    </div>
+
+
+
+
+</form>
+
