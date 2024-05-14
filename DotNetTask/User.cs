@@ -1,0 +1,19 @@
+﻿using Newtonsoft.Json;
+
+namespace DotNetTask
+{
+    public class User
+    {
+        [JsonProperty(PropertyName = "id")]
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Address { get; set; }
+        public string Phone { get; set; }
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
+    }
+
+    
+}
