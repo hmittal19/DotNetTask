@@ -19,7 +19,7 @@
     //        console.error(error);
     //    });
     $scope.getType = function () {
-        debugger;
+        
         let x = $scope.obj.type;
         if ($scope.obj.type == "MCQ") {
 
@@ -36,7 +36,7 @@
         }
     }
     $scope.addRow = function () {
-        debugger;
+        
         var table = document.getElementById("myTable");
         var row = table.insertRow(0);
         var cell1 = row.insertCell(0);
@@ -44,7 +44,7 @@
     }
 
     $scope.Question = function () {
-        debugger;
+        
         var data = {};
         data = $scope.obj;
         var l = document.querySelectorAll("input[id=choises]").length;
@@ -55,7 +55,7 @@
             data.choises.push(document.querySelectorAll("input[id=choises]")[i].value);
             //data.choises.push($('#choises').eq(i).val());
         }
-        debugger;
+        
         if (data.id != undefined) {
             $scope.updateQuestion(data);
         }
@@ -65,13 +65,13 @@
 
     }
     $scope.addQuestion = function (data) {
-        debugger;
+        
         $http({
             method: 'POST',
             url: '/api/Home/createQuestion',
             data: data
         }).then(function (response) {
-            debugger;
+            
             if (response.status == 200) {
                 alert("Created..");
                 $scope.obj = {};
@@ -87,7 +87,7 @@
 
     }
     $scope.submitApplication = function (id) {
-        debugger;
+        
         var data = {};
         //data.Questions = $scope.QuestionList;
         data.Id = id;
@@ -104,14 +104,17 @@
 
     }
     $scope.submitApplicationForm = function () {
-        debugger;
+        
         let data = $scope.obj;
         data.questionAns = [];
         for (var i = 0; i < $scope.model.length; i++) {
             var ans = {};
             ans.id = $scope.model[i].id;
             if ($scope.model[i].type == 'Yes/No') {
-                ans.answers = $("input[type='radio'][name='age']:checked").val();
+                ans.answers = $("input[type='radio'][name='" + $scope.model[i].id +"']:checked").val();
+            }
+            else if ($scope.model[i].type == 'MCQ') {
+                ans.answers = $("select[name='choose']").val();
             }
             else {
                 ans.answers = document.getElementById($scope.model[i].id).value;
@@ -125,7 +128,7 @@
             url: '/api/Home/submitApplicationForm',
             data: data
         }).then(function (response) {
-            debugger;
+            
             if (response.status == 200) {
                 alert("Created..");
                 $scope.obj = {};
@@ -137,20 +140,20 @@
         });
     }
     $scope.addAns = function (id,ans) {
-        debugger;
+        
         var data = {};
         data.id = id;
         data.answers = document.getElementById(id).value;
         $scope.AnsList.push(data);
     }
     $scope.createApplication = function (data) {
-        debugger;
+        
         $http({
             method: 'POST',
             url: '/api/Home/createApplication',
             data: data
         }).then(function (response) {
-            debugger;
+            
             if (response.status == 200) {
                 alert("Created..");
                 $scope.obj = {};
@@ -164,13 +167,13 @@
 
     }
     $scope.updateQuestion = function (data) {
-        debugger;
+        
         $http({
             method: 'PUT',
             url: '/api/Home/updateQuestion',
             data: data
         }).then(function (response) {
-            debugger;
+            
             if (response.status == 200) {
                 alert("Created..");
                 $scope.obj = {};
@@ -183,7 +186,7 @@
         });
     }
     $scope.update = function (id, type) {
-        debugger;
+        
         $scope.obj = {};
         $('#delete').removeClass('d-none');
         $scope.obj = $scope.model.find(user => user.id === id);
@@ -212,12 +215,12 @@
 
     }
     $scope.deleteQuestion = function (id,type) {
-        debugger;
+        
         $http({
             method: 'DELETE',
             url: '/api/Home/deleteQuestion?id=' + id + '&type=' + type
         }).then(function (response) {
-            debugger;
+            
             console.log(response);
             document.getElementById('mode_show').click();
             $scope.model = response.data.result;
@@ -232,7 +235,7 @@
         
     }
     $scope.reset = function () {
-        debugger;
+        
         $scope.obj = {};
         $('#delete').addClass('d-none');
         $('#choise').addClass('d-none');
@@ -240,21 +243,22 @@
         var table = document.getElementById("myTable").innerHTML = "";
 
     }
-    $scope.checkselect = function () {
-        debugger;
-        var l = $("select option:selected").length;
-        if ($("select option:selected").length > 3) {
+    $scope.checkselect = function (maxAllowed) {
+        
+        if ($("select[name='choose'] option:selected").length > maxAllowed) {
             //your code here
+            alert("please select maximumn " + maxAllowed);
+            $scope.MCQ = "";
         }
 
     }
     $scope.getQuestions = function () {
-        debugger;
+        
         $http({
             method: 'GET',
             url: '/api/Home/getQuestions'
         }).then(function (response) {
-            debugger;
+            
             console.log(response);
             $scope.model = response.data.result;
             //$scope.ProgrameTitle = $scope.model.programeTitle
@@ -264,12 +268,12 @@
     }
     $scope.getQuestions();
     $scope.getForm = function () {
-        debugger;
+        
         $http({
             method: 'GET',
             url: '/api/Home/getForm'
         }).then(function (response) {
-            debugger;
+            
             console.log(response);
             $scope.modelform = response.data.result[0]; 
             $scope.ProgrameTitle = $scope.modelform.programeTitle;

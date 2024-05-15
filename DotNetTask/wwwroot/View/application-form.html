@@ -64,12 +64,11 @@
                             <label for="{{products.id}}-no">No</label>
                         </div>
 
-                        <select ng-if="products.type == 'Dropdown choice'" class="multiple-select" id="{{products.id}}" ng-model="Dropdownchoice">
-                            <option value="">Select</option>
+                        <select ng-if="products.type == 'Dropdown choice'" class="multiple-select" id="{{products.id}}" name="dropdownchoice" ng-model="Dropdownchoice">
+                            <option value=""> --Select-- </option>
                             <option ng-repeat="m in products.choises" value="{{m}}">{{m}}</option>
                         </select>
-                        <select ng-if="products.type == 'MCQ'" id="{{products.id}}" multiple ng-model="MCQ" ng-change="checkselect()">
-                            <option value="">Select</option>
+                        <select ng-if="products.type == 'MCQ'" id="{{products.id}}" multiple ng-model="MCQ" class="checkselect"  name="choose" ng-change="checkselect(products.maxAllowed)">
                             <option ng-repeat="m in products.choises" value="{{m}}">{{m}}</option>
 
                         </select>
@@ -118,4 +117,6 @@
 
 
 </form>
+
+
 
