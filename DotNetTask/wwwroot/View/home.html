@@ -61,7 +61,7 @@
         </tr>
     </table>
 
-    <button type="button" class="btn btn-sm btn-success" id="mode_show" style="margin-top:26px;" data-bs-toggle="modal" data-bs-target="#myModal">+ Add a question</button>
+    <button type="button" class="btn btn-sm btn-success" id="mode_show" style="margin-top:26px;" data-bs-toggle="modal" data-bs-target="#myModal" ng-click="reset()">+ Add a question</button>
     <button type="button" class="btn btn-sm btn-success d-none" id="mode_update_show" style="margin-top:26px;" data-bs-toggle="modal" data-bs-target="#myModalUpdate">+ Add a question</button>
 
 
@@ -116,7 +116,7 @@
 
     </table>
 
-    <button type="button" class="btn btn-sm btn-success" style="margin-top:26px;" data-bs-toggle="modal" data-bs-target="#myModal">+ Add a question</button>
+    <button type="button" class="btn btn-sm btn-success" style="margin-top:26px;" data-bs-toggle="modal" data-bs-target="#myModal" ng-click="reset()">+ Add a question</button>
     <button type="button" class="btn btn-sm btn-warning" style="margin-top: 26px; float: right;" ng-click="submitApplication()">Create program and application</button>
 
 
@@ -276,11 +276,7 @@
 </div>
 
 <script>
-    ClassicEditor
-        .create(document.querySelector('#editor'))
-        .catch(error => {
-            console.error(error);
-        });
+    
 </script>
 <script>
     window.location.pathname = "/View/index.html";

@@ -56,7 +56,7 @@
                     <div class="col-12">
                         <label><b>{{products.question}}</b><span class="text_danger" style="color:red;">*</span></label>
                         <input type="date" ng-if="products.type == 'Date'" class="col-12" ng-model="Date" id="{{products.id}}" />
-                        <input type="number" ng-if="products.type == 'Number'" class="col-12" ng-model="Number" id="{{products.id}}" />
+                        <input type="number" min="0" ng-if="products.type == 'Number'" class="col-12" ng-model="Number" id="{{products.id}}" />
                         <div class="col-12" ng-if="products.type == 'Yes/No'">
                             <input type="radio" id="{{products.id}}-yes" name="{{products.id}}" ng-model="products.answer" value="Yes">
                             <label for="{{products.id}}-yes">Yes</label>
@@ -68,12 +68,14 @@
                             <option value="">Select</option>
                             <option ng-repeat="m in products.choises" value="{{m}}">{{m}}</option>
                         </select>
-                        <select ng-if="products.type == 'MCQ'" id="{{products.id}}" multiple ng-model="MCQ">
+                        <select ng-if="products.type == 'MCQ'" id="{{products.id}}" multiple ng-model="MCQ" ng-change="checkselect()">
                             <option value="">Select</option>
                             <option ng-repeat="m in products.choises" value="{{m}}">{{m}}</option>
 
                         </select>
                         <textarea ng-if="products.type == 'Paragraph'" id="{{products.id}}" ng-model="Paragraph"></textarea>
+                        <input class="col-12" ng-if="products.type == 'Dropdown choice' && products.enableOther" id="{{products.id}}" placeholder="Please specify 'Other'" ng-model="EnableOther1" />
+                        <input class="col-12" ng-if="products.type == 'MCQ' && products.enableOther" id="{{products.id}}" placeholder="Please specify 'Other'" ng-model="EnableOther2" />
                     </div>
                 </div>
                 <!--<div ng-repeat="products in model" class="row">
@@ -105,7 +107,10 @@
             <button type="submit" class="btn btn-sm btn-success" style="margin-bottom:26px;float:right;" ng-click="submitApplicationForm()">Submit Application</button>
         </div>
         <div class="col-4" style="margin-top: 35px;">
-            <b>{{modelform.programeTitle}}</b>
+            <p><b>{{modelform.programeTitle}}</b></p>
+            <div id="renderHtml">
+                <p>testtetstst</p>
+            </div>
         </div>
     </div>
 

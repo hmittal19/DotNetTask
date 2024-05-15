@@ -2,6 +2,22 @@
     $scope.obj = {};
     $scope.QuestionList = [];
     $scope.AnsList = [];
+    var myEditor;
+    ClassicEditor
+        .create(document.querySelector('#editor'))
+        .then(editor => {
+            editor.ui.view.editable.element.style.height = '300px';
+            //console.log('Editor was initialized', editor);
+            myEditor = editor;
+        })
+        .catch(err => {
+            console.error(err.stack);
+        });
+    //ClassicEditor
+    //    .create(document.querySelector('#editor'))
+    //    .catch(error => {
+    //        console.error(error);
+    //    });
     $scope.getType = function () {
         debugger;
         let x = $scope.obj.type;
@@ -78,7 +94,7 @@
         data.ProgrameTitle = $scope.ProgrameTitle;
         //data.ProgrameDescription = $('.ck-editor__editable').html();
         
-        //data.ProgrameDescription = document.querySelector('#editor').innerHTML;
+        data.ProgrameDescription = myEditor.getData();
         if (id != undefined) {
             //$scope.updateQuestion(data);
         }
@@ -203,13 +219,17 @@
         }).then(function (response) {
             debugger;
             console.log(response);
+            document.getElementById('mode_show').click();
             $scope.model = response.data.result;
+            $scope.obj = {};
+            $scope.QuestionList = [];
+            $scope.ProgrameTitle = "";
+            $scope.getQuestions();
             //$scope.ProgrameTitle = $scope.model.programeTitle
         }, function (error) {
             alert(error);
         });
-        document.getElementById('mode_show').click();
-        $scope.getQuestions();
+        
     }
     $scope.reset = function () {
         debugger;
@@ -218,6 +238,14 @@
         $('#choise').addClass('d-none');
         $('#mcq').addClass('d-none');
         var table = document.getElementById("myTable").innerHTML = "";
+
+    }
+    $scope.checkselect = function () {
+        debugger;
+        var l = $("select option:selected").length;
+        if ($("select option:selected").length > 3) {
+            //your code here
+        }
 
     }
     $scope.getQuestions = function () {
@@ -244,27 +272,14 @@
             debugger;
             console.log(response);
             $scope.modelform = response.data.result[0]; 
-            //$scope.ProgrameTitle = $scope.model.programeTitle
+            $scope.ProgrameTitle = $scope.modelform.programeTitle;
+            $scope.ProgrameDescription = $scope.modelform.programeDescription;
+            document.getElementById('renderHtml').innerHTML = $scope.modelform.programeDescription;
         }, function (error) {
             alert(error);
         });
     }
     $scope.getForm();
-    function CkCtrl($scope) {
-        debugger;
-        // Load initial data, doesn't matter where this comes from. Could be a service
-        $scope.editorData = '<h1>This is the initial data.</h1>';
-
-        var editor = CKEDITOR.instances.editor;
-
-        // When data changes inside the CKEditor instance, update the scope variable
-        editor.on('instanceReady', function (e) {
-            this.document.on("keyup", function () {
-                $scope.$apply(function () {
-                    $scope.editorData = editor.getData();
-                });
-            });
-        });
-    }
+    
 }
 

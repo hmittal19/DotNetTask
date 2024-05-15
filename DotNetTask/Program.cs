@@ -30,6 +30,7 @@ builder.Services.Configure<FormOptions>(options =>
     // Set the limit to 10 MB
     options.MultipartBodyLengthLimit = 10240000;
 });
+builder.Services.AddScoped<IHomeRepo, HomeRepo>();
 builder.Services.AddMvc();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
@@ -86,7 +87,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     app.UseSwagger().UseSwaggerUI(options =>
     {
         options.DocExpansion(DocExpansion.None);
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "ICAR");
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "DotNetTask");
         options.EnableFilter("");
         options.InjectStylesheet("/swagger-ui/SwaggerDark.css");
     });
